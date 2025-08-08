@@ -8,7 +8,7 @@ function App() {
   
   useEffect(() => {
     let todostring=localStorage.getItem("todos")
-    if(todostring){
+    if(todostring!==null){
       let todos=JSON.parse(localStorage.getItem("todos"))
       setTodos(todos)
     }
@@ -17,6 +17,7 @@ function App() {
   const saveToLS = (params) =>{
     localStorage.setItem("todos",JSON.stringify(todos))
   }
+
 
   const addTask = () => {
     if (task.trim() === "") {
@@ -40,10 +41,11 @@ function App() {
     setTodos(todos.filter((_,e) => e !== index));
     saveToLS();
   }
-  
+
   const handleEnter=(e)=>{
     if(e.key==="Enter"){
       addTask();
+      saveToLS();
     }
   }
 
@@ -60,6 +62,7 @@ function App() {
               <li key={index} className={todo.completed ? 'completed' : ""}>
                 <span>{todo.text}</span>
                 <div className='todo-buttons'>
+                  
                   <i onClick={() => toggleComplete(index)} className="fa-solid fa-check"></i>
                   {saveToLS()}
                   <i onClick={() => { deleteTask(index) }} className="fa-solid fa-trash"></i>
@@ -74,8 +77,5 @@ function App() {
     </>
   )
 }
-
-// const root=ReactDOM.createRoot(document.getElementById('root'));
-// root.render(<index/>);
 
 export default App
